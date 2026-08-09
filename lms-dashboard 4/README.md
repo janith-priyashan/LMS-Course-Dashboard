@@ -19,3 +19,6 @@ A clean, responsive, and interactive Learning Management System (LMS) Course Das
 ## How to Run
 * Download or clone this repository.
 * Open index.html in any web browser (or use VS Code Live Server).
+
+## screenshots 
+
