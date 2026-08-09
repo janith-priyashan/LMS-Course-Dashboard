@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" width="400" height="220">
+  <rect width="400" height="220" fill="#25273C"/>
+  <circle cx="60" cy="180" r="120" fill="#2E3050"/>
+  <rect x="50" y="130" width="28" height="60" rx="4" fill="#B8F7E4"/>
+  <rect x="90" y="100" width="28" height="90" rx="4" fill="#79E4C4"/>
+  <rect x="130" y="70" width="28" height="120" rx="4" fill="#B8F7E4"/>
+  <rect x="170" y="115" width="28" height="75" rx="4" fill="#79E4C4"/>
+  <circle cx="300" cy="60" r="8" fill="#FAF9F6"/>
+  <circle cx="330" cy="90" r="8" fill="#FAF9F6" opacity="0.6"/>
+  <text x="40" y="200" font-family="Lato, sans-serif" font-size="16" fill="#FAF9F6" opacity="0.75" transform="translate(20,0)">Data Analytics Fundamentals</text>
+</svg>

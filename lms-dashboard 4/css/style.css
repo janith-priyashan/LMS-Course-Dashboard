@@ -1,0 +1,1333 @@
+
+@font-face {
+  font-family: "BlackMalika-Fallback";
+  src: local("Georgia");
+}
+
+:root {
+  /* ---- color tokens ---- */
+  --clr-mint: #B8F7E4;
+  --clr-mint-deep: #79E4C4;
+  --clr-mint-dark: #4FC9A8;
+  --clr-graphite: #25273C;
+  --clr-graphite-soft: #3A3D5C;
+  --clr-graphite-deep: #171826;
+  --clr-muted: #6B6E85;
+  --clr-paper: #FAF9F6;
+  --clr-paper-dim: #F1EFE9;
+  --clr-white: #FFFFFF;
+
+  /* ---- live theme tokens (flipped by .dark on <html>) ---- */
+  --bg: var(--clr-paper);
+  --bg-elevated: var(--clr-white);
+  --text: var(--clr-graphite);
+  --text-muted: var(--clr-muted);
+  --border: rgba(37, 39, 60, 0.1);
+
+  /* ---- type ---- */
+  --font-display: "BlackMalika-Free", "BlackMalika-Fallback", Georgia, serif;
+  --font-body: "Lato", Arial, sans-serif;
+
+  /* ---- layout ---- */
+  --container-max: 1500px;
+  --header-h: 64px;
+  --radius: 1.1rem;
+}
+
+html.dark {
+  --bg: var(--clr-graphite-deep);
+  --bg-elevated: var(--clr-graphite-soft);
+  --text: var(--clr-paper);
+  --text-muted: rgba(250, 249, 246, 0.6);
+  --border: rgba(250, 249, 246, 0.12);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  padding-top: var(--header-h);
+  /* offsets the fixed header */
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.lms-hidden {
+  display: none !important;
+}
+
+.lms-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--clr-mint-dark);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* =========================================================
+   HEADER SECTION 
+   ========================================================= */
+
+.lms-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.lms-header-extra {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  height: var(--header-h);
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  position: relative;
+}
+
+/* ---- logo / wordmark ---- */
+.lms-header-div1 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+.lms-header-div1-img {
+  height: 30px;
+  width: auto;
+  /* the logo's own aspect ratio is preserved — never forced square */
+}
+
+.lms-header-div1-span {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  line-height: 1;
+  color: var(--text);
+  display: none;
+  /* shown from 768px up */
+}
+
+/* ---- nav / dropdown (mobile-first: hidden dropdown) ---- */
+.lms-header-div2 {
+  display: none;
+  position: absolute;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  flex-direction: column;
+  padding: 0.5rem 1rem 1rem;
+  box-shadow: 0 12px 24px -12px rgba(23, 24, 38, 0.25);
+}
+
+.lms-header-div2--open {
+  display: flex;
+}
+
+.lms-header-div2-link {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  padding: 0.85rem 0.6rem;
+  border-radius: 0.6rem;
+  border-bottom: 1px solid var(--border);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* .lms-header-div2-link:hover, */
+.lms-header-div2-link:active {
+  color: var(--text);
+  background: rgba(184, 247, 228, 0.16);
+}
+
+.lms-header-div2-link.is-active {
+  color: var(--clr-mint-dark);
+  background: rgba(184, 247, 228, 0.16);
+}
+
+/* ---- dark mode buttons ---- */
+.lms-header-darkbtn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.lms-header-darkbtn svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.lms-header-darkbtn--inNav {
+  padding: 0.85rem 0.25rem;
+  justify-content: flex-start;
+}
+
+.lms-header-darkbtn--desktop {
+  display: none;
+  /* only shown at desktop tier */
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  justify-content: center;
+  border: 1px solid var(--border);
+}
+
+/* ---- right cluster ---- */
+.lms-header-div3 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.lms-header-div4 {
+  display: none;
+  /* only shown at desktop tier */
+  align-items: center;
+  gap: 0.55rem;
+  padding-left: 0.75rem;
+  border-left: 1px solid var(--border);
+}
+
+.lms-header-div4-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  outline: 2px solid var(--clr-mint);
+  outline-offset: 1px;
+}
+
+.lms-header-div4-span {
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+
+/* ---- toggle-menu button  ---- */
+.lms-header-togglebtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.lms-header-togglebtn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* ======================= HEADER BREAKPOINTS ======================= */
+
+
+@media (min-width: 360px) {
+  .lms-header-div1-img {
+    height: 32px;
+  }
+}
+
+
+@media (min-width: 480px) {
+  :root {
+    --header-h: 68px;
+  }
+}
+
+/* Tablet begins — 768px and up:
+   logo + wordmark + toggle menu (nav & dark icon live inside it) */
+@media (min-width: 768px) {
+  :root {
+    --header-h: 76px;
+  }
+
+  .lms-header-div1-span {
+    display: block;
+  }
+
+  .lms-header-div1-img {
+    height: 38px;
+  }
+}
+
+@media (min-width: 992px) {
+  .lms-header-extra {
+    padding: 0 1.5rem;
+  }
+}
+
+/* Desktop begins — 1200px and up:
+   full nav bar, dark icon in header bar, avatar+name, toggle hidden */
+@media (min-width: 1200px) {
+  :root {
+    --header-h: 84px;
+  }
+
+  .lms-header-togglebtn {
+    display: none;
+  }
+
+  .lms-header-div2 {
+    display: flex;
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    border-radius: 9999px;
+    padding: 0.35rem;
+    box-shadow: none;
+    gap: 0.15rem;
+  }
+
+  .lms-header-div2-link {
+    border-bottom: none;
+    padding: 0.55rem 1.1rem;
+    border-radius: 9999px;
+  }
+
+  .lms-header-div2-link:hover,
+  .lms-header-div2-link:active {
+    color: var(--text);
+    background: rgba(37, 39, 60, 0.08);
+  }
+
+  html.dark .lms-header-div2-link:hover,
+  html.dark .lms-header-div2-link:active {
+    background: rgba(250, 249, 246, 0.1);
+  }
+
+  .lms-header-div2-link.is-active,
+  .lms-header-div2-link.is-active:hover,
+  .lms-header-div2-link.is-active:active {
+    background: var(--clr-graphite);
+    color: var(--clr-mint);
+  }
+
+  html.dark .lms-header-div2-link.is-active,
+  html.dark .lms-header-div2-link.is-active:hover,
+  html.dark .lms-header-div2-link.is-active:active {
+    background: var(--clr-mint);
+    color: var(--clr-graphite-deep);
+  }
+
+  .lms-header-darkbtn--inNav {
+    display: none;
+    /* dark icon moves to header bar at desktop */
+  }
+
+  .lms-header-darkbtn--desktop {
+    display: flex;
+  }
+
+  .lms-header-div4 {
+    display: flex;
+  }
+
+  .lms-header-div1-img {
+    height: 44px;
+  }
+}
+
+@media (min-width: 1300px) {
+  .lms-header-div1-span {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 1500px) {
+  .lms-header-extra {
+    padding: 0 2rem;
+  }
+}
+
+/* =========================================================
+   SECTION 01 — WELCOME SECTION
+   ========================================================= */
+
+.lms-sec1 {
+  padding: 1.5rem 1rem 0;
+}
+
+.lms-sec1-extra {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.lms-sec1-div1 {
+  background: var(--clr-graphite);
+  color: var(--clr-paper);
+  border-radius: 1.5rem;
+  padding: 1.75rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.lms-sec1-div1::after {
+  content: "";
+  position: absolute;
+  right: -60px;
+  top: -70px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(184, 247, 228, 0.18);
+  filter: blur(6px);
+}
+
+.lms-sec1-div1-span1 {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--clr-mint);
+  margin-bottom: 0.6rem;
+  position: relative;
+}
+
+.lms-sec1-div1-span2 {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  line-height: 1.15;
+  margin-bottom: 0.6rem;
+  position: relative;
+}
+
+.lms-sec1-div1-span3 {
+  color: var(--clr-mint);
+}
+
+.lms-sec1-div1-span4 {
+  font-size: 0.95rem;
+  color: rgba(250, 249, 246, 0.78);
+  max-width: 42ch;
+  position: relative;
+}
+
+.lms-sec1-div2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+}
+
+.lms-sec1-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 1.1rem;
+  padding: 1.15rem 1.25rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.lms-sec1-card-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.lms-sec1-card-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.lms-sec1-card-value {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  line-height: 1;
+}
+
+.lms-sec1-card-icon {
+  width: 30px;
+  height: 30px;
+  color: var(--clr-mint-dark);
+}
+
+.lms-sec1-card-ring {
+  width: 46px;
+  height: 46px;
+  transform: rotate(-90deg);
+}
+
+.lms-sec1-card-ring-track {
+  stroke: var(--border);
+}
+
+#overallRing {
+  stroke: var(--clr-mint-dark);
+  transition: stroke-dashoffset 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ======================= SECTION 01 BREAKPOINTS ======================= */
+
+@media (min-width: 360px) {
+  .lms-sec1-div1-span2 {
+    font-size: 2.1rem;
+  }
+}
+
+@media (min-width: 480px) {
+  .lms-sec1-div2 {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+
+  .lms-sec1-card-value {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 576px) {
+  .lms-sec1 {
+    padding-top: 2rem;
+  }
+
+  .lms-sec1-div1 {
+    padding: 2.1rem 1.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .lms-sec1-div1-span2 {
+    font-size: 2.6rem;
+  }
+
+  .lms-sec1-div1-span4 {
+    font-size: 1.05rem;
+  }
+
+  .lms-sec1-div2 {
+    gap: 1rem;
+  }
+
+  .lms-sec1-card-value {
+    font-size: 2.3rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .lms-sec1 {
+    padding: 2.5rem 1.5rem 0;
+  }
+
+  .lms-sec1-div1 {
+    padding: 2.5rem;
+  }
+
+  .lms-sec1-div1-span4 {
+    max-width: 34ch;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lms-sec1-div1-span2 {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .lms-sec1 {
+    padding: 3rem 2rem 0;
+  }
+
+  .lms-sec1-extra {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 1.75rem;
+  }
+
+  .lms-sec1-div1 {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .lms-sec1-div2 {
+    flex: 0 0 320px;
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+}
+
+@media (min-width: 1400px) {
+  .lms-sec1-div1-span2 {
+    font-size: 3.3rem;
+  }
+
+  .lms-sec1-card-value {
+    font-size: 2.5rem;
+  }
+
+  .lms-sec1-extra {
+    gap: 2rem;
+  }
+
+  .lms-sec1-div2 {
+    flex-basis: 340px;
+  }
+}
+
+@media (min-width: 1500px) {
+  .lms-sec1 {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* =========================================================
+   SECTION 02 — COURSE CARDS (arrow-swipeable slider)
+   ========================================================= */
+
+.lms-sec2 {
+  padding: 2.5rem 1rem 4rem;
+}
+
+.lms-sec2-extra {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.lms-sec2-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 1.25rem;
+}
+
+.lms-sec2-header-span1 {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--clr-mint-dark);
+}
+
+.lms-sec2-header-span2 {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+}
+
+.lms-sec2-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-bottom: 1.5rem;
+}
+
+.lms-sec2-search {
+  position: relative;
+}
+
+.lms-sec2-search svg {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--text-muted);
+}
+
+.lms-sec2-search input,
+.lms-sec2-select {
+  width: 100%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 0.8rem;
+  padding: 0.7rem 0.9rem;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: var(--text);
+}
+
+.lms-sec2-search input {
+  padding-left: 2.4rem;
+}
+
+.lms-sec2-search input:focus,
+.lms-sec2-select:focus {
+  outline: none;
+  border-color: var(--clr-mint-dark);
+  box-shadow: 0 0 0 4px rgba(184, 247, 228, 0.35);
+}
+
+/* ---- slider shell ---- */
+.lms-slider-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 2rem 0rem;
+}
+
+.lms-card-container {
+  display: flex;
+  gap: 0;
+  width: 100%;
+  align-items: stretch;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: grab;
+}
+
+.lms-card-container:active {
+  cursor: grabbing;
+}
+
+/* ---- individual course card ---- */
+.lms-card {
+  position: relative;
+  flex: 0 0 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  /* overflow is intentionally NOT hidden here — an element clips its own
+     box-shadow when overflow is hidden, which was cutting off the hover
+     shadow on large screens. Corner-clipping happens on .lms-card-media
+     below instead, so the image still gets rounded top corners. */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.lms-card-media {
+  position: relative;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  border-radius: 1.25rem 1.25rem 0 0;
+}
+
+.lms-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.lms-card-category {
+  position: absolute;
+  top: 0.7rem;
+  left: 0.7rem;
+  background: rgba(184, 247, 228, 0.95);
+  color: var(--clr-graphite-deep);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.6rem;
+  border-radius: 9999px;
+}
+
+.lms-card-body {
+  padding: 1.1rem 1.1rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.lms-card-title {
+  font-family: var(--font-body);
+  font-weight: 900;
+  font-size: 1.02rem;
+  line-height: 1.3;
+  /* background-image: linear-gradient(var(--clr-mint), var(--clr-mint)); */
+  background-repeat: no-repeat;
+  background-size: 100% 0.45em;
+  background-position: 0 90%;
+  display: inline;
+}
+
+html.dark .lms-card-title {
+  /* background-image: linear-gradient(rgba(184, 247, 228, 0.3), rgba(184, 247, 228, 0.3)); */
+}
+
+.lms-card-instructor {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+}
+
+.lms-card-progress-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.8rem;
+  font-weight: 800;
+  margin-top: auto;
+  padding-top: 0.9rem;
+}
+
+.lms-progress-track {
+  width: 100%;
+  height: 0.55rem;
+  border-radius: 9999px;
+  background: var(--border);
+  overflow: hidden;
+  margin-top: 0.35rem;
+}
+
+.lms-progress-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, var(--clr-mint-deep), var(--clr-mint-dark));
+  width: 0%;
+  transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lms-card-activities {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  margin-top: 0.4rem;
+}
+
+.lms-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  background: var(--clr-graphite);
+  color: var(--clr-mint);
+  font-weight: 800;
+  font-size: 0.85rem;
+  padding: 0.65rem 1rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+.lms-btn-primary:hover {
+  background: var(--clr-graphite-deep);
+  transform: translateY(-1px);
+}
+
+html.dark .lms-btn-primary {
+  background: var(--clr-mint);
+  color: var(--clr-graphite-deep);
+}
+
+/* ---- arrows ---- */
+.lms-arrow-button {
+  /* Hidden on tablet/mobile — the dots below are the only slide
+     control at those widths. Re-enabled at >=1200px (desktop). */
+  display: none;
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  color: var(--text);
+  box-shadow: 0 4px 15px rgba(23, 24, 38, 0.15);
+  transition: all 0.25s ease;
+}
+
+.lms-arrow-button:disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+
+.lms-arrow-left {
+  left: 0.35rem;
+}
+
+.lms-arrow-right {
+  right: 0.35rem;
+}
+
+/* ---- dots ---- */
+.lms-slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.lms-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--border);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.lms-dot.is-active {
+  background: var(--clr-mint-dark);
+  transform: scale(1.3);
+}
+
+.lms-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-muted);
+}
+
+/* ======================= SECTION 02 BREAKPOINTS ======================= */
+
+/* 360px */
+@media (min-width: 360px) {
+  .lms-sec2-header-span2 {
+    font-size: 1.85rem;
+  }
+}
+
+/* 414px */
+@media (min-width: 414px) {
+  .lms-card-body {
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
+}
+
+/* 480px */
+@media (min-width: 480px) {
+  .lms-sec2-controls {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .lms-sec2-search {
+    flex: 1 1 100%;
+  }
+
+  .lms-sec2-select {
+    flex: 1 1 calc(50% - 0.35rem);
+    width: auto;
+  }
+}
+
+/* 576px */
+@media (min-width: 576px) {
+  .lms-sec2 {
+    padding: 3rem 1.5rem 4.5rem;
+  }
+}
+
+/* Tablet — 768px and up: 2 cards per view */
+@media (min-width: 768px) {
+  .lms-sec2-header-span2 {
+    font-size: 2.1rem;
+  }
+
+  .lms-card-container {
+    gap: 12px;
+  }
+
+  .lms-card {
+    flex: 0 0 calc(50% - 6px);
+  }
+
+  .lms-sec2-controls {
+    flex-wrap: nowrap;
+  }
+
+  .lms-sec2-search {
+    flex: 1 1 auto;
+  }
+
+  .lms-sec2-select {
+    flex: 0 0 auto;
+    width: 12rem;
+  }
+}
+
+/* 850px — extra granularity for mid tablets */
+@media (min-width: 850px) {
+  .lms-card-media {
+    aspect-ratio: 16/9;
+  }
+}
+
+/* 992px */
+@media (min-width: 992px) {
+  .lms-sec2 {
+    padding: 3.5rem 1.5rem 5rem;
+  }
+
+  .lms-card-container {
+    gap: 16px;
+  }
+
+  .lms-card {
+    flex: 0 0 calc(50% - 8px);
+  }
+}
+
+/* 1024px */
+
+/* 1150px */
+@media (min-width: 1150px) {
+  .lms-sec2-header-span2 {
+    font-size: 2.3rem;
+  }
+}
+
+/* Desktop — 1200px and up: 4 cards per view */
+@media (min-width: 1200px) {
+  .lms-sec2 {
+    padding: 4rem 2rem 5.5rem;
+  }
+
+  .lms-card-container {
+    gap: 20px;
+  }
+
+  .lms-card {
+    flex: 0 0 calc(25% - 15px);
+  }
+
+  .lms-arrow-button {
+    width: 48px;
+    height: 48px;
+  }
+
+  .lms-arrow-left {
+    left: -0.5rem;
+  }
+
+  .lms-arrow-right {
+    right: -0.5rem;
+  }
+
+  /* Arrows are desktop-only — hidden by default (see base rule),
+     re-enabled here. Tablet/mobile rely on the dots alone. */
+  .lms-arrow-button {
+    display: flex;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Hover effects — large screens only.
+   Gated on both a minimum width AND real hover/pointer support, so
+   a cursor moving across a tablet/mobile viewport never triggers
+   these (touch has no hover state to begin with, but this also
+   protects desktop-sized touchscreens).
+   --------------------------------------------------------------- */
+@media (min-width: 1200px) and (hover: hover) and (pointer: fine) {
+  .lms-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--clr-mint-dark);
+    box-shadow:
+      0 30px 48px -22px rgba(23, 24, 38, 0.42),
+      0 10px 20px -10px rgba(79, 201, 168, 0.28);
+  }
+
+  html.dark .lms-card:hover {
+    border-color: var(--clr-mint);
+  }
+
+  .lms-card:hover .lms-card-media img {
+    transform: scale(1.08);
+  }
+
+  .lms-card:hover .lms-card-title {
+    background-size: 100% 0.6em;
+  }
+
+  .lms-card:hover .lms-btn-primary {
+    background: var(--clr-graphite-deep);
+  }
+
+  html.dark .lms-card:hover .lms-btn-primary {
+    background: var(--clr-mint-deep);
+  }
+
+  .lms-arrow-button:hover {
+    background: var(--clr-mint);
+    color: var(--clr-graphite-deep);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 10px 20px -8px rgba(79, 201, 168, 0.5);
+  }
+}
+
+/* 1300px */
+@media (min-width: 1300px) {
+  .lms-card-container {
+    gap: 22px;
+  }
+
+  .lms-card {
+    flex: 0 0 calc(25% - 16.5px);
+  }
+}
+
+/* 1400px */
+@media (min-width: 1400px) {
+  .lms-card-container {
+    gap: 24px;
+  }
+
+  .lms-card {
+    flex: 0 0 calc(25% - 18px);
+  }
+
+  .lms-card-title {
+    font-size: 1.08rem;
+  }
+}
+
+/* 1500px — layout is frozen here; container stops growing further */
+@media (min-width: 1500px) {
+  .lms-sec2-extra,
+  .lms-sec1-extra,
+  .lms-header-extra {
+    max-width: 1500px;
+  }
+
+  .lms-sec2 {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* =========================================================
+   COURSE DETAILS MODAL
+   ========================================================= */
+
+.lms-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.lms-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(23, 24, 38, 0.6);
+  backdrop-filter: blur(2px);
+}
+
+.lms-modal-panel {
+  position: relative;
+  width: 100%;
+  max-width: 28rem;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: var(--bg);
+  border-radius: 1.25rem;
+  padding: 1.6rem;
+  animation: lms-modal-in 0.25s ease;
+}
+
+@keyframes lms-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.lms-modal-close {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: var(--border);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.lms-modal-close svg {
+  width: 16px;
+  height: 16px;
+}
+
+.lms-modal-img {
+  width: 100%;
+  height: 9.5rem;
+  object-fit: cover;
+  border-radius: 0.9rem;
+  margin-bottom: 1.1rem;
+}
+
+.lms-modal-category {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--clr-mint-dark);
+}
+
+.lms-modal-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  margin: 0.3rem 0 0.2rem;
+}
+
+.lms-modal-instructor {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 1.1rem;
+}
+
+.lms-modal-progress-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+}
+
+.lms-modal-activities {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 0.4rem;
+}
+
+.lms-modal-desc {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin: 1rem 0 0.25rem;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.lms-footer {
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 1rem;
+}
+
+.lms-footer-extra {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+@media (min-width: 768px) {
+  .lms-footer-extra {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+/* =========================================================
+   SCROLL-REVEAL (used by js/script.js IntersectionObserver)
+   ========================================================= */
+
+.lms-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.lms-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .lms-reveal,
+  .lms-card,
+  .lms-progress-fill,
+  #overallRing {
+    transition: none !important;
+  }
+}
+
+/* scrollbar polish */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(37, 39, 60, 0.2);
+  border-radius: 9999px;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: rgba(250, 249, 246, 0.2);
+}
