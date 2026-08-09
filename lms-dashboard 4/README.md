@@ -21,15 +21,19 @@ A clean, responsive, and interactive Learning Management System (LMS) Course Das
 * Open index.html in any web browser (or use VS Code Live Server).
 
 ## screenshots 
+* **light mode**
 ![LMS Dashboard Preview](images/light1.png)
 
 ![LMS Dashboard Preview](images/light2.png)
 
+* **dark mode**
 ![LMS Dashboard Preview](images/dark1.png)
 
 ![LMS Dashboard Preview](images/dark2.png)
 
+* **tablet view**
 ![LMS Dashboard Preview](images/tablet.png)
 
+* **mobile view** 
 ![LMS Dashboard Preview](images/mobile.png)
 
